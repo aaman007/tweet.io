@@ -22,7 +22,12 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', RedirectView.as_view(url='/admin/login/'))
+    path('', RedirectView.as_view(url='/admin/login/')),
+
+    # API URLs
+    path('api/accounts/', include('accounts.api.urls')),
+    path('api/core/', include('core.api.urls')),
+    path('api/tweets/', include('tweets.api.urls'))
 ]
 
 if settings.DEBUG:

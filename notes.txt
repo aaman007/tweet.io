@@ -1,0 +1,52 @@
+1. accounts
+   ======= Models =======
+   - User (Stores User Info)
+     - Django Defaults
+   - Token (from rest-framework.authtoken to Authenticate user for incoming requests)
+     - DRF Defaults
+   - Follow
+    - user (ForeignKey to User)
+    - follower (ForeignKey to User)
+    - is_followed (BooleanField, default True)
+    - created_at
+    - modified_at
+
+   ======= API Endpoints =======
+   # L1
+   - POST: /register/ -> Registers a user given Username, FirstName, LastName, Password
+   - POST: /login/ -> Logs in a user given Username and Password
+   - GET: /username/ -> Returns user data (Fullname, followers count, following count)
+   - POST: /username/follow/ -> Follows a user
+   - POST: /username/unfollow/ -> Unfollows a user
+
+   # L2
+   - GET: /followers/?username='Optional' -> Returns followers of logged-in user / passed username
+   - GET: /following/?username='Optional' -> Returns following of logged-in user / passed username
+
+2. core
+   ======= Models =======
+   - None
+   ======= API Endpoints / Actions =======
+   - None
+
+3. tweets
+   ======= Models =======
+   - Tweet
+     - user (ForeignKey to Accounts.User)
+     - content (CharField, max_length = 120)
+     - tags (ManyToManyField to Tag)
+     - created_at
+     - modified_at
+   - Tag
+     - title
+
+   ======= API Endpoints / Actions =======
+   # L1
+   - GET: /tweets/?username='Optional' -> Returns recent tweets of followed users / passed username
+   - POST: /tweets/ -> Creates a new tweet entry
+   - PUT: /tweets/id/ -> Updates an existing entry with permission check
+   - DELETE: /tweets/id/ -> Deletes an existing entry after permission check
+
+   # L2
+   - GET: /tags/ -> Returns tags used on own tweets or tweets by followed users
+   - GET: /tweets/?username='Optional'&tags='Optional' -> tweets filter based on comma-separated tags

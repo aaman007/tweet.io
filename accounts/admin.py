@@ -6,6 +6,8 @@ from django.utils.translation import gettext_lazy as _
 
 from rest_framework.authtoken.models import Token, TokenProxy
 
+from accounts.models import Follow
+
 
 User = get_user_model()
 
@@ -21,6 +23,13 @@ class UserAdmin(BaseUserAdmin):
         }],
         [_('Important dates'), {'fields': ['last_login', 'date_joined']}],
     ]
+
+
+@admin.register(Follow)
+class FollowAdmin(admin.ModelAdmin):
+    list_display = ['user', 'follower', 'is_followed', 'created_at']
+    search_fields = ['user__username', 'follower__username']
+    list_filter = ['is_followed']
 
 
 @admin.register(Token)

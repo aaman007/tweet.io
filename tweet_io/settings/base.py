@@ -47,7 +47,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     'accounts',
-    'core'
+    'core',
+    'tweets'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
