@@ -24,6 +24,12 @@ class User(BaseUser):
     def follows_count(self):
         return self.follows.count()
 
+    def active_followers(self):
+        return self.followers.filter(is_followed=True)
+
+    def active_follows(self):
+        return self.follows.filter(is_followed=True)
+
 
 class Follow(AbstractTimestampModel):
     user = models.ForeignKey(

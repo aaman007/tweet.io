@@ -18,8 +18,6 @@
    - GET: /username/ -> Returns user data (Fullname, followers count, following count)
    - POST: /username/follow/ -> Follows a user
    - POST: /username/unfollow/ -> Unfollows a user
-
-   # L2
    - GET: /followers/?username='Optional' -> Returns followers of logged-in user / passed username
    - GET: /following/?username='Optional' -> Returns following of logged-in user / passed username
 
