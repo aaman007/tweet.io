@@ -12,7 +12,6 @@
     - modified_at
 
    ======= API Endpoints =======
-   # L1
    - POST: /register/ -> Registers a user given Username, FirstName, LastName, Password
    - POST: /login/ -> Logs in a user given Username and Password
    - GET: /username/ -> Returns user data (Fullname, followers count, following count)
@@ -41,6 +40,7 @@
    ======= API Endpoints / Actions =======
    # L1
    - GET: /tweets/?username='Optional' -> Returns recent tweets of followed users / passed username
+                                       -> Returns follower's tweets if is_followers=true is passed
    - POST: /tweets/ -> Creates a new tweet entry
    - PUT: /tweets/id/ -> Updates an existing entry with permission check
    - DELETE: /tweets/id/ -> Deletes an existing entry after permission check

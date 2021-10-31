@@ -10,6 +10,13 @@ class UserManager(BaseUserManager):
 
 class FollowManager(models.Manager):
     def follow(self, user, follower):
+        """
+        Follow a user, If the Follow entry is already created, mark is_followed as True
+        :param user:
+        :param follower:
+        :return: Follow instance
+        """
+
         if user == follower:
             raise Http404
         instance, created = self.get_or_create(user=user, follower=follower)
@@ -17,6 +24,13 @@ class FollowManager(models.Manager):
         return instance
 
     def unfollow(self, user, follower):
+        """
+        Unfollow a user, If the Follow entry is already created, mark is_followed as False
+        :param user:
+        :param follower:
+        :return: Follow instance
+        """
+
         instance = get_object_or_404(self.model, user=user, follower=follower)
         instance.is_followed and instance.unfollow()
         return instance

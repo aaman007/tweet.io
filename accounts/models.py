@@ -49,6 +49,7 @@ class Follow(AbstractTimestampModel):
     objects = FollowManager()
 
     class Meta:
+        ordering = ['-id']
         verbose_name = _('Follow')
         verbose_name_plural = _('Follows')
         unique_together = ('user', 'follower')

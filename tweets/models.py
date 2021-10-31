@@ -3,12 +3,16 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from core.models import AbstractTimestampModel
+from tweets.manager import TweetManager, TagManager
 
 
 class Tag(models.Model):
     title = models.CharField(verbose_name=_('Title'), max_length=60)
 
+    objects = TagManager()
+
     class Meta:
+        ordering = ['-id']
         verbose_name = _('Tags')
         verbose_name_plural = _('Tags')
 
@@ -31,7 +35,10 @@ class Tweet(AbstractTimestampModel):
         blank=True
     )
 
+    objects = TweetManager()
+
     class Meta:
+        ordering = ['-id']
         verbose_name = _('Tweet')
         verbose_name_plural = _('Tweets')
 
