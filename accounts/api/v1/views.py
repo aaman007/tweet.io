@@ -48,7 +48,7 @@ class RegisterAPIView(APIView):
             'token_type': 'Bearer',
             'token': token.key,
             'user': UserSerializer(instance=user).data
-        })
+        }, status=status.HTTP_201_CREATED)
 
 
 class LoginAPIView(ObtainAuthToken):
@@ -63,6 +63,22 @@ class LoginAPIView(ObtainAuthToken):
             'token': token.key,
             'user': UserSerializer(instance=user).data
         })
+
+
+class UserListAPIView(ListAPIView):
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        """
+        Return list of user that the current user can follow
+        :return: QuerySet of User instances
+        """
+        followed_users = [
+            follow.user_id
+            for follow in self.request.user.active_follows().only('user_id')
+        ] + [self.request.user.id]
+        return User.objects.exclude(id__in=followed_users)
 
 
 class UserRetrieveAPIView(RetrieveAPIView):

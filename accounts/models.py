@@ -9,6 +9,11 @@ from accounts.managers import UserManager, FollowManager
 class User(BaseUser):
     objects = UserManager()
 
+    class Meta:
+        ordering = ['-id']
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
+
     def __str__(self):
         return self.username
 

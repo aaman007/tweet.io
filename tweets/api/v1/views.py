@@ -6,7 +6,7 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
     get_object_or_404
 )
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
 
 from core.api.permissions import IsObjectOwner
 from tweets.api.v1.serializers import TagSerializer, TweetSerializer
@@ -56,5 +56,6 @@ class TweetRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
 
     def get_object(self):
         tweet = get_object_or_404(Tweet, pk=self.kwargs.get('pk'))
-        self.check_object_permissions(self.request, tweet.user)
+        if self.request.method not in SAFE_METHODS:
+            self.check_object_permissions(self.request, tweet.user)
         return tweet
