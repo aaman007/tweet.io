@@ -5,5 +5,10 @@ django-debug-toolbar==3.2.2
 django-environ==0.8.1
 django-filter==21.1
 djangorestframework==3.12.4
+factory-boy==3.2.1
+Faker==9.7.1
+python-dateutil==2.8.2
 pytz==2021.3
+six==1.16.0
 sqlparse==0.4.2
+text-unidecode==1.3
