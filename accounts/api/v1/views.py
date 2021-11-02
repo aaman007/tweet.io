@@ -8,7 +8,12 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import RetrieveAPIView, ListAPIView, get_object_or_404
 
-from accounts.api.v1.serializers import UserSerializer, FollowSerializer, RegisterSerializer
+from accounts.api.v1.serializers import (
+    UserSerializer,
+    SingleUserSerializer,
+    FollowSerializer,
+    RegisterSerializer
+)
 from accounts.models import Follow
 
 User = get_user_model()
@@ -82,7 +87,7 @@ class UserListAPIView(ListAPIView):
 
 
 class UserRetrieveAPIView(RetrieveAPIView):
-    serializer_class = UserSerializer
+    serializer_class = SingleUserSerializer
     lookup_field = 'username'
 
     def get_queryset(self):
@@ -114,7 +119,7 @@ class FollowAPIView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         Follow.objects.follow(user, request.user)
-        return Response({'status': 'success'})
+        return Response(UserSerializer(user).data)
 
 
 class UnfollowAPIView(APIView):
@@ -129,4 +134,4 @@ class UnfollowAPIView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         Follow.objects.unfollow(user, request.user)
-        return Response({'status': 'success'})
+        return Response(UserSerializer(user).data)

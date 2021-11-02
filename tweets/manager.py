@@ -23,7 +23,7 @@ class TweetManager(models.Manager):
         :return: QuerySet of Tweet Instances
         """
 
-        followed_users = [followed.user_id for followed in user.follows.only('user_id')]
+        followed_users = [followed.user_id for followed in user.active_follows().only('user_id')]
         return self.filter(user__in=followed_users)
 
     def follower_tweets(self, user):
@@ -33,5 +33,5 @@ class TweetManager(models.Manager):
         :return: QuerySet of Tweet Instances
         """
 
-        follower_ids = [follower.id for follower in user.followers.only('id')]
+        follower_ids = [follower.id for follower in user.active_followers().only('id')]
         return self.filter(user__in=follower_ids)

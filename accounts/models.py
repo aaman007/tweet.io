@@ -23,11 +23,11 @@ class User(BaseUser):
 
     @property
     def followers_count(self):
-        return self.followers.count()
+        return self.active_followers().count()
 
     @property
     def follows_count(self):
-        return self.follows.count()
+        return self.active_follows().count()
 
     def active_followers(self):
         return self.followers.filter(is_followed=True)
