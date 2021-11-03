@@ -21,14 +21,6 @@ class User(BaseUser):
     def full_name(self):
         return self.get_full_name()
 
-    @property
-    def followers_count(self):
-        return self.active_followers().count()
-
-    @property
-    def follows_count(self):
-        return self.active_follows().count()
-
     def active_followers(self):
         return self.followers.filter(is_followed=True)
 

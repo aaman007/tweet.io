@@ -9,7 +9,8 @@ As, In DEVELOPMENT mode, sqlite is used as db this is not required
       
 
 ### 2. Creating virtual environment
-Run ```virtualenv venv``` command inside the project directory
+Run ```virtualenv venv``` command inside the project directory       
+Run ```source venv/bin/activate``` to activate the environment          
 If you are using PyCharm, you can do the same thing using GUI
 
 ### 3. Installing Dependencies
@@ -32,7 +33,7 @@ or
 Fake data can be created by running -     
 ``` python manage.py create_test_data ```      
 1,000 Users, for each user [0 to 10] follow relation and 10,000 tweets with random user would be created        
-This could be configured by going to ```core/management/commands/create_test.data.py``` file and  updating the global variables
+This could be configured by going to ```core/management/commands/create_test_data.py``` file and  updating the global variables
 
 
 ### 7. [Optional] Create a Superuser

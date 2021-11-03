@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.db.models import Count, Q
 
 from rest_framework import status
 from rest_framework.authtoken.models import Token
@@ -77,21 +78,25 @@ class UserListAPIView(ListAPIView):
     def get_queryset(self):
         """
         Return list of user that the current user can follow
+        Requires annotating followers_count and follows count for each user
         :return: QuerySet of User instances
         """
-        followed_users = [
-            follow.user_id
-            for follow in self.request.user.active_follows().only('user_id')
-        ] + [self.request.user.id]
-        return User.objects.exclude(id__in=followed_users)
+        following_ids = list(self.request.user.active_follows().values_list('user_id', flat=True))
+        following_ids.append(self.request.user.id)
+        return User.objects.exclude(id__in=following_ids).annotate(
+            followers_count=Count('followers'),
+            follows_count=Count('follows')
+        ).only('username', 'first_name', 'last_name')
 
 
 class UserRetrieveAPIView(RetrieveAPIView):
     serializer_class = SingleUserSerializer
     lookup_field = 'username'
 
-    def get_queryset(self):
-        return User.objects.all()
+    def get_object(self):
+        username = self.kwargs.get('username', '')
+        user = get_object_or_404(User, username=username)
+        return user
 
 
 class FollowerListAPIView(AbstractBaseFollowListAPIView):
@@ -119,7 +124,7 @@ class FollowAPIView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         Follow.objects.follow(user, request.user)
-        return Response(UserSerializer(user).data)
+        return Response(UserSerializer(user, context={'request': request}).data)
 
 
 class UnfollowAPIView(APIView):
@@ -134,4 +139,4 @@ class UnfollowAPIView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         Follow.objects.unfollow(user, request.user)
-        return Response(UserSerializer(user).data)
+        return Response(UserSerializer(user, context={'request': request}).data)
