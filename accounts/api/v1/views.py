@@ -83,10 +83,13 @@ class UserListAPIView(ListAPIView):
         """
         following_ids = list(self.request.user.active_follows().values_list('user_id', flat=True))
         following_ids.append(self.request.user.id)
-        return User.objects.exclude(id__in=following_ids).annotate(
-            followers_count=Count('followers'),
-            follows_count=Count('follows')
-        ).only('username', 'first_name', 'last_name')
+        qs = User.objects\
+            .exclude(id__in=following_ids) \
+            .annotate(follows_count=Count('follows', distinct=True)) \
+            .annotate(followers_count=Count('followers', distinct=True))\
+            .only('username', 'first_name', 'last_name')\
+            .order_by('-id')
+        return qs
 
 
 class UserRetrieveAPIView(RetrieveAPIView):

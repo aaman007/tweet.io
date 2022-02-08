@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from accounts.api.v1.serializers import UserSerializer
+from accounts.api.v1.serializers import BasicUserSerializer
 from tweets.models import Tag, Tweet
 
 
@@ -21,7 +21,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class TweetSerializer(serializers.ModelSerializer):
-    user = UserSerializer(read_only=True)
+    user = BasicUserSerializer(read_only=True)
 
     class Meta:
         model = Tweet

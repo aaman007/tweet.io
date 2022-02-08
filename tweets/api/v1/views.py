@@ -41,7 +41,7 @@ class TweetListCreateAPIView(ListCreateAPIView):
 
         if username:
             user = get_object_or_404(User, username=username)
-            return user.tweets.all()
+            return user.tweets.all().select_related('user').prefetch_related('tags')
         elif is_followers:
             return Tweet.objects.follower_tweets(self.request.user)
         return Tweet.objects.followed_users_tweets(self.request.user)
