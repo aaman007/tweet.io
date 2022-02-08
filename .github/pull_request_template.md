@@ -1,5 +1,5 @@
 ### Description
-Description of the PR
+Short description of the PR
 
 ### Changes
 - [ ] Change 1
